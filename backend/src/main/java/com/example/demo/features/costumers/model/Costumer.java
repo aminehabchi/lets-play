@@ -18,7 +18,7 @@ import lombok.Setter;
 @Document(collection = "costumers")
 public class Costumer extends BaseEntity {
     @Indexed(unique = true)
-    private String name;
+    private String username;
 
     @Indexed(unique = true)
     private String email;
@@ -29,7 +29,7 @@ public class Costumer extends BaseEntity {
 
 
     public Costumer(RegisterRequest request) {
-        this.name = request.getName();
+        this.username = request.getUsername();
         this.email = request.getEmail();
         this.password = request.getPassword();
         this.role = Role.ROLE_USER;

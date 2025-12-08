@@ -21,8 +21,7 @@ import jakarta.validation.Valid;
 public class AuthController {
     private final AuthService authService;
     private final AuthenticationManager authenticationManager;
-    private final JwtUtil jwtUtil ;
-
+    private final JwtUtil jwtUtil;
 
     public AuthController(AuthService authService, AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
         this.authService = authService;
@@ -32,16 +31,15 @@ public class AuthController {
 
     @PostMapping(value = "/register")
     public ApiResponse<Costumer> register(@Valid @RequestBody RegisterRequest request) {
-        System.out.println("------------------------------> Registering new user");
         return ApiResponse.success(authService.register(request));
     }
 
     @PostMapping(value = "/login")
-    public ApiResponse<String> login(@Valid @RequestBody LoginRequest request) {
+    public ApiResponse<String> login(@RequestBody LoginRequest request) {
         Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getName(), request.getPassword()));
+                new UsernamePasswordAuthenticationToken(request.getEmailOrUsername(), request.getPassword()));
 
-        String token = jwtUtil.generateToken(request.getName());
+        String token = jwtUtil.generateToken(request.getEmailOrUsername());
         return ApiResponse.success(token);
     }
 

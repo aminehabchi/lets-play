@@ -9,5 +9,6 @@ import com.example.demo.features.costumers.model.Costumer;
 
 @Repository
 public interface CostumerRepository extends MongoRepository<Costumer, String> {
-    Optional<Costumer> findByEmail(String email);
+    Optional<Costumer> findByEmailOrUsername(String email, String username);
+
 }
