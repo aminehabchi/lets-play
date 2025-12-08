@@ -6,7 +6,7 @@ plugins {
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-description = 'Demo project for Spring Boot'
+description = 'build a RESTful CRUD API with Spring Boot and MongoDB, The system will manage users and products, allowing operations such as creating, reading, updating, and deleting both entities. also implement authentication and authorization using token-based security, ensuring that only authorized users can perform restricted actions.,This project focuses on backend development best practices — secure coding, error handling, REST design principles, and role-based access management.'
 
 java {
 	toolchain {
