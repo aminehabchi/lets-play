@@ -19,8 +19,12 @@ public class CostumerDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        
         Costumer user = costumerRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
+        System.out.println("------------------------------> Loading user by email: " + user.getEmail());
+
         return new CostumerDetails(user);
     }
 }

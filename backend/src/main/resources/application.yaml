@@ -3,8 +3,7 @@ spring:
     name: demo
   data:
   mongodb:
-    host: localhost
-    port: 27017
-    database: DB
-    username: amine
-    password: 1234
+    uri: mongodb://amine:1234@localhost:27017/DB?authSource=admin
+jwt:
+  secret: this-is-a-very-strong-secret-key-12345678
+  expiration: 3600000
