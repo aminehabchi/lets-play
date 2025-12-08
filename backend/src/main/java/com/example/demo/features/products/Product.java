@@ -1,9 +1,11 @@
-package com.example.demo.features.users.model;
+package com.example.demo.features.products;
+
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.features.common.BaseEntity;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,13 +16,14 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "users")
-public class User extends BaseEntity {
+@Document(collection = "products")
+public class Product extends BaseEntity {
+
     @Indexed(unique = true)
     private String name;
+
     private String description;
     private double price;
 
-    private User owner;
-
+    private String userId;
 }
