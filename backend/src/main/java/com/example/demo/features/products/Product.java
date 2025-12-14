@@ -1,11 +1,13 @@
 package com.example.demo.features.products;
 
+import java.util.UUID;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import com.example.demo.features.common.BaseEntity;
-
+import com.example.demo.features.products.dto.CreateProduct;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,5 +27,13 @@ public class Product extends BaseEntity {
     private String description;
     private double price;
 
-    private String customerId;
+    @Field("customer_id")
+    private UUID customerId;
+
+    public Product(CreateProduct p, UUID userId) {
+        name = p.getName();
+        description = p.getDescription();
+        price = p.getPrice();
+        this.customerId = userId;
+    }
 }
