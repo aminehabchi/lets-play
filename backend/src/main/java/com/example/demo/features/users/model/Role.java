@@ -1,4 +1,4 @@
-package com.example.demo.features.costumers.model;
+package com.example.demo.features.users.model;
 
 public enum Role {
     ROLE_USER,

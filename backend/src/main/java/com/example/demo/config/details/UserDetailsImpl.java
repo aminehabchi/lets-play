@@ -8,12 +8,12 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.features.costumers.model.Costumer;
+import com.example.demo.features.users.model.User;
 
-public class CostumerDetails implements UserDetails {
-    private Costumer user;
+public class UserDetailsImpl implements UserDetails {
+    private User user;
 
-    public CostumerDetails(Costumer user) {
+    public UserDetailsImpl(User user) {
         this.user = user;
     }
 

@@ -7,8 +7,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.example.demo.config.details.CostumerDetails;
-import com.example.demo.config.details.CostumerDetailsService;
+import com.example.demo.config.details.UserDetailsImpl;
+import com.example.demo.config.details.UserDetailsServiceImpl;
 import com.example.demo.utils.JwtUtil;
 
 import jakarta.servlet.FilterChain;
@@ -20,9 +20,9 @@ import jakarta.servlet.http.HttpServletResponse;
 public class JwtAuthFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtService;
-    private final CostumerDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
 
-    public JwtAuthFilter(JwtUtil jwtService, CostumerDetailsService userDetailsService) {
+    public JwtAuthFilter(JwtUtil jwtService, UserDetailsServiceImpl userDetailsService) {
         this.jwtService = jwtService;
         this.userDetailsService = userDetailsService;
     }
@@ -47,7 +47,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // If username exists & no current user authenticated
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            CostumerDetails user = userDetailsService.loadUserByUsername(username);
+            UserDetailsImpl user = userDetailsService.loadUserByUsername(username);
 
             if (jwtService.isTokenValid(token, user)) {
                 UsernamePasswordAuthenticationToken authToken =

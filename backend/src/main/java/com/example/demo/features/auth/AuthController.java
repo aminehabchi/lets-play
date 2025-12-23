@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.features.auth.dto.LoginRequest;
 import com.example.demo.features.auth.dto.RegisterRequest;
 import com.example.demo.features.common.ApiResponse;
-import com.example.demo.features.costumers.model.Costumer;
+import com.example.demo.features.users.model.User;
 import com.example.demo.utils.JwtUtil;
 
 import jakarta.validation.Valid;
@@ -25,7 +25,7 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register")
-    public ApiResponse<Costumer> register(@Valid @RequestBody RegisterRequest request) {
+    public ApiResponse<User> register(@Valid @RequestBody RegisterRequest request) {
         return ApiResponse.success(authService.register(request));
     }
 

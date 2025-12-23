@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
-import com.example.demo.config.details.CostumerDetailsService;
+import com.example.demo.config.details.UserDetailsServiceImpl;
 import com.example.demo.config.filters.JwtAuthFilter;
 
 @Configuration
@@ -21,11 +21,11 @@ import com.example.demo.config.filters.JwtAuthFilter;
 @EnableMethodSecurity
 public class SecurityConfig {
 
-    private final CostumerDetailsService userDetailsService;
+    private final UserDetailsServiceImpl userDetailsService;
     private final JwtAuthFilter jwtAuthFilter;
 
 
-    public SecurityConfig(CostumerDetailsService userDetailsService, JwtAuthFilter jwtAuthFilter) {
+    public SecurityConfig(UserDetailsServiceImpl userDetailsService, JwtAuthFilter jwtAuthFilter) {
         this.userDetailsService = userDetailsService;
         this.jwtAuthFilter = jwtAuthFilter;
     }

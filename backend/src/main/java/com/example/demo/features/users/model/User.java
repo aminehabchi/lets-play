@@ -1,4 +1,4 @@
-package com.example.demo.features.costumers.model;
+package com.example.demo.features.users.model;
 
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -15,8 +15,8 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "costumers")
-public class Costumer extends BaseEntity {
+@Document(collection = "users")
+public class User extends BaseEntity {
     @Indexed(unique = true)
     private String username;
 
@@ -28,7 +28,7 @@ public class Costumer extends BaseEntity {
     private Role role;
 
 
-    public Costumer(RegisterRequest request) {
+    public User(RegisterRequest request) {
         this.username = request.getUsername();
         this.email = request.getEmail();
         this.password = request.getPassword();
