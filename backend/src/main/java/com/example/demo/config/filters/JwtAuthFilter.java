@@ -7,6 +7,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetailsS
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
+import com.example.demo.config.details.CostumerDetails;
 import com.example.demo.config.details.CostumerDetailsService;
 import com.example.demo.utils.JwtUtil;
 
@@ -46,12 +47,12 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         // If username exists & no current user authenticated
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-            UserDetails user = userDetailsService.loadUserByUsername(username);
+            CostumerDetails user = userDetailsService.loadUserByUsername(username);
 
             if (jwtService.isTokenValid(token, user)) {
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(
-                                user,
+                                user.getId(),
                                 null,
                                 user.getAuthorities()
                         );

@@ -4,6 +4,7 @@ spring:
   data:
   mongodb:
     uri: mongodb://amine:1234@localhost:27017/DB?authSource=admin
+    uuid-representation: standard
 jwt:
   secret: this-is-a-very-strong-secret-key-12345678
   expiration: 3600000

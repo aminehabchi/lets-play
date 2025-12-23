@@ -10,12 +10,12 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import lombok.Getter;
 import lombok.Setter;
 
-
 @Setter
 @Getter
 public abstract class BaseEntity {
     @Id
-    private String id = UUID.randomUUID().toString();
+    private UUID id = UUID.randomUUID();
+    
     @Field("created_at")
     private LocalDateTime createdAt = LocalDateTime.now();
 

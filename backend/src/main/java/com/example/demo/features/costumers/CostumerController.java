@@ -1,5 +1,6 @@
 package com.example.demo.features.costumers;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -15,7 +16,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.features.common.ApiResponse;
 import com.example.demo.features.costumers.model.Costumer;
 
-
 @RestController
 @RequestMapping("/api/Costumers")
 public class CostumerController {
@@ -25,14 +25,13 @@ public class CostumerController {
         this.costumerService = costumerService;
     }
 
-    @GetMapping()
-    public String getCostumers() {
-        System.out.println("Fetching users details");
-        return "Costumers details";
+    @GetMapping
+    public ResponseEntity<ApiResponse<List<Costumer>>> getUsers() {
+        return ResponseEntity.ok(ApiResponse.success(costumerService.getCustumers()));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Costumer>> getCostomer(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<Costumer>> getUser(@PathVariable UUID id) {
         return costumerService.getCustumerById(id)
                 .map(p -> ResponseEntity.ok(ApiResponse.success(p)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
@@ -40,7 +39,7 @@ public class CostumerController {
     }
 
     @DeleteMapping()
-    public ResponseEntity<ApiResponse<Costumer>> deleteCostumer(Authentication authentication) {
+    public ResponseEntity<ApiResponse<Costumer>> deleteUser(Authentication authentication) {
         UUID userId = (UUID) authentication.getPrincipal();
 
         this.costumerService.deleteCostumer(userId);
@@ -48,7 +47,7 @@ public class CostumerController {
                 .body(ApiResponse.successStatus(HttpStatus.NO_CONTENT.value()));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping()
     public String updateCostumer(@PathVariable String id) {
         System.out.println("Updating Costumer");
         return "Costumer updated";

@@ -1,5 +1,6 @@
 package com.example.demo.features.costumers;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -17,6 +18,10 @@ public class CostumerService {
 
     public Optional<Costumer> getCustumerById(UUID id) {
         return this.costumerRepository.findById(id);
+    }
+
+    public List<Costumer> getCustumers(){
+        return this.costumerRepository.findAll();
     }
 
     public void deleteCostumer(UUID id) {
