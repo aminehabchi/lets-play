@@ -1,7 +1,6 @@
-package com.example.demo.features.auth.dto;
+package com.example.demo.features.users.dto;
 
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,18 +11,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class RegisterRequest {
-    @NotBlank(message = "Username is required")
+public class UpdateRequest {
+
     @Size(max = 255)
     private String username;
 
     @Email(message = "Email must be valid")
-    @NotBlank(message = "Email is required")
     @Size(max = 255)
     private String email;
 
-    @NotBlank(message = "Password is required")
     @Size(min = 6, max = 255, message = "Password must be at least 6 characters")
     private String password;
-
 }

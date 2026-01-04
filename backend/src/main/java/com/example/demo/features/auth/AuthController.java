@@ -31,10 +31,6 @@ public class AuthController {
 
     @PostMapping(value = "/login")
     public ApiResponse<String> login(@RequestBody LoginRequest request) {
-        // Authentication auth = authenticationManager.authenticate(
-        // new UsernamePasswordAuthenticationToken(request.getEmailOrUsername(),
-        // request.getPassword()));
-
         String token = jwtUtil.generateToken(request.getEmailOrUsername());
         return ApiResponse.success(token);
     }

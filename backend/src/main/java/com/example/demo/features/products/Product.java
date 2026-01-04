@@ -25,15 +25,16 @@ public class Product extends BaseEntity {
     private String name;
 
     private String description;
+
     private double price;
 
-    @Field("customer_id")
-    private UUID customerId;
+    @Field("userId")
+    private UUID userId;
 
     public Product(CreateProduct p, UUID userId) {
         name = p.getName();
         description = p.getDescription();
         price = p.getPrice();
-        this.customerId = userId;
+        this.userId = userId;
     }
 }

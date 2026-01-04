@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductRepository extends MongoRepository<Product, UUID> {
-    List<Product> findByCustomerId(String customerId);
+    List<Product> findByUserId(String customerId);
 }

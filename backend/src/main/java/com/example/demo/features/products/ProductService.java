@@ -7,14 +7,18 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.features.products.dto.CreateProduct;
+import com.example.demo.features.products.dto.UpdateProcut;
+import com.example.demo.features.users.UserService;
 
 @Service
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final UserService userService;
 
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, UserService userService) {
         this.productRepository = productRepository;
+        this.userService = userService;
     }
 
     public Optional<Product> getProductById(UUID id) {
@@ -30,7 +34,7 @@ public class ProductService {
     public HttpStatus deleteProduct(UUID id, UUID userId) {
         Optional<Product> p = getProductById(id);
         if (p.isPresent()) {
-            if (p.get().getCustomerId() != userId) {
+            if (p.get().getUserId() != userId && !this.userService.isAdmin(userId)) {
                 return HttpStatus.FORBIDDEN;
             }
 
@@ -38,6 +42,22 @@ public class ProductService {
             return HttpStatus.NO_CONTENT;
         }
         return HttpStatus.NOT_FOUND;
+    }
+
+    public void updateProduct(Product product, UpdateProcut updateProduct) {
+
+        if (updateProduct.getName() != null) {
+            product.setName(updateProduct.getName());
+        }
+        if (updateProduct.getDescription() != null) {
+            product.setDescription(updateProduct.getDescription());
+        }
+        if (updateProduct.getPrice() != null) {
+            product.setPrice(updateProduct.getPrice());
+        }
+
+        productRepository.save(product);
+
     }
 
 }

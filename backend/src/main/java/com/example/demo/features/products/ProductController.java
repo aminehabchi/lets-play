@@ -1,5 +1,6 @@
 package com.example.demo.features.products;
 
+import java.util.Optional;
 import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.features.common.ApiResponse;
 import com.example.demo.features.products.dto.CreateProduct;
+import com.example.demo.features.products.dto.UpdateProcut;
 import com.mongodb.lang.NonNull;
 
 @RestController
@@ -56,9 +58,24 @@ public class ProductController {
     }
 
     @PutMapping(value = "/{id}")
-    public String updateProduct(@PathVariable UUID id) {
-        System.out.println("Updating Product");
-        return "Product updated";
+    public ResponseEntity<ApiResponse<?>> updateProduct(@PathVariable UUID productId,
+            @NonNull UpdateProcut updateProcut,
+            Authentication authentication) {
+
+        Optional<Product> product = this.productService.getProductById(productId);
+
+        if (product.isEmpty()) {
+            return ResponseEntity.ok(ApiResponse.error("Product not found", HttpStatus.NOT_FOUND));
+        }
+
+        UUID userId = (UUID) authentication.getPrincipal();
+        if (product.get().getUserId() != userId) {
+            return ResponseEntity.ok(ApiResponse.error("Not authorized", HttpStatus.FORBIDDEN));
+        }
+
+        this.productService.updateProduct(product.get(), updateProcut);
+
+        return ResponseEntity.ok(ApiResponse.successStatus(HttpStatus.OK));
     }
 
 }
