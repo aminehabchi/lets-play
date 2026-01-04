@@ -1,5 +1,6 @@
 package com.example.demo.features.products;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,6 +24,10 @@ public class ProductService {
 
     public Optional<Product> getProductById(UUID id) {
         return productRepository.findById(id);
+    }
+
+    public List<Product> getAllProducts(){
+              return productRepository.findAll();
     }
 
     public Product createProduct(CreateProduct newProduct, UUID userId) {

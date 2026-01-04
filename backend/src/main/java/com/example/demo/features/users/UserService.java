@@ -21,6 +21,10 @@ public class UserService {
         this.securityConfig = securityConfig;
     }
 
+    public Optional<User> getUserByUsernameOrEmail(String usernameOrEmail) {
+        return this.userRepository.findByEmailOrUsername(usernameOrEmail, usernameOrEmail);
+    }
+
     public Optional<User> getUserById(UUID id) {
         return this.userRepository.findById(id);
     }
@@ -51,6 +55,8 @@ public class UserService {
         if (req.getPassword() != null) {
             user.setPassword(securityConfig.passwordEncoder().encode(req.getPassword()));
         }
+
+        this.userRepository.save(user);
     }
 
 }

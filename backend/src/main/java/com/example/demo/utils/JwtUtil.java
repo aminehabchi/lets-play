@@ -19,8 +19,6 @@ public class JwtUtil {
     private long expirationTime;
 
     public String generateToken(String username) {
-        System.out.println("------------------------------> Generating token for user: " + secretKey);
-
         return Jwts.builder()
                 .setSubject(username)
                 .setExpiration(new Date(System.currentTimeMillis() + expirationTime))

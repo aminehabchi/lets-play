@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.example.demo.features.auth.dto.RegisterRequest;
 import com.example.demo.features.common.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,6 +24,7 @@ public class User extends BaseEntity {
     @Indexed(unique = true)
     private String email;
 
+    @JsonIgnore
     private String password;
 
     private Role role;

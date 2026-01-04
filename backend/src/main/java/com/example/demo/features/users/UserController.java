@@ -41,14 +41,14 @@ public class UserController {
 
         if (!userId.equals(id)) {
             if (!this.userService.isAdmin(userId)) {
-                return ResponseEntity.ok(ApiResponse.error("", HttpStatus.FORBIDDEN.value()));
+                return ResponseEntity.ok(ApiResponse.error("", HttpStatus.FORBIDDEN));
             }
         }
 
         return userService.getUserById(id)
                 .map(p -> ResponseEntity.ok(ApiResponse.success(p)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
-                        .body(ApiResponse.error("User not found", HttpStatus.NOT_FOUND.value())));
+                        .body(ApiResponse.error("User not found", HttpStatus.NOT_FOUND)));
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -56,7 +56,7 @@ public class UserController {
     public ResponseEntity<?> deleteUser(@PathVariable UUID id) {
         userService.deleteUser(id);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.error("User not found", HttpStatus.OK.value()));
+                .body(ApiResponse.success(HttpStatus.OK));
     }
 
     @DeleteMapping("/me")
@@ -64,7 +64,7 @@ public class UserController {
         UUID userId = (UUID) auth.getPrincipal();
         userService.deleteUser(userId);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.error("User not found", HttpStatus.OK.value()));
+                .body(ApiResponse.success(HttpStatus.OK));
     }
 
     @PutMapping()
@@ -73,7 +73,7 @@ public class UserController {
         User user = this.userService.getUserById(userId).orElse(null);
         this.userService.updateUser(user, updateRequest);
         return ResponseEntity.status(HttpStatus.OK)
-                .body(ApiResponse.error("User not found", HttpStatus.OK.value()));
+                .body(ApiResponse.success(HttpStatus.OK));
     }
 
 }
