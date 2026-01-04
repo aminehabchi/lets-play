@@ -2,9 +2,9 @@ spring:
   application:
     name: demo
   data:
-  mongodb:
-    uri: mongodb://amine:1234@localhost:27017/DB?authSource=admin
-    uuid-representation: standard
+    mongodb:
+      uri: mongodb://amine:1234@localhost:27017/DB?authSource=admin
+      uuid-representation: standard
 jwt:
   secret: n9B7Fh8X3Cwq2mRzVYp0Q6L8sA1T5EJZkW4dUoM+KxHcR7eIPlmG2NfaSb0y
   expiration: 3600000
