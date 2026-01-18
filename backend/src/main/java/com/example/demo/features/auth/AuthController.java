@@ -32,8 +32,13 @@ public class AuthController {
     }
 
     @PostMapping(value = "/register")
-    public ApiResponse<User> register(@Valid @RequestBody RegisterRequest request) {
-        return ApiResponse.success(authService.register(request));
+    public ResponseEntity<ApiResponse<?>> register(@Valid @RequestBody RegisterRequest request) {
+        User user = authService.register(request);
+        if (user == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body(ApiResponse.error("Username or Email already used.", 400));
+        }
+        return ResponseEntity.ok(ApiResponse.success(user));
     }
 
     @PostMapping("/login")

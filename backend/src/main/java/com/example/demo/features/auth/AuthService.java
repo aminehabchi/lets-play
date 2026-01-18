@@ -20,6 +20,11 @@ public class AuthService {
     }
 
     public User register(RegisterRequest request) {
+        if (userRepository.existsByUsername(request.getUsername())
+                || userRepository.existsByEmail(request.getUsername())) {
+            return null;
+        }
+
         request.setPassword(securityConfig.passwordEncoder().encode(request.getPassword()));
         return userRepository.save(new User(request));
     }

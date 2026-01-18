@@ -59,6 +59,14 @@ public class UserController {
                 .body(ApiResponse.success(HttpStatus.OK));
     }
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getMe(Authentication auth) {
+        UUID userId = (UUID) auth.getPrincipal();
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(ApiResponse.success(userService.getUserById(userId).get()));
+    }
+
     @DeleteMapping("/me")
     public ResponseEntity<?> deleteMe(Authentication auth) {
         UUID userId = (UUID) auth.getPrincipal();
@@ -67,7 +75,7 @@ public class UserController {
                 .body(ApiResponse.success(HttpStatus.OK));
     }
 
-    @PutMapping()
+    @PutMapping("/me")
     public ResponseEntity<?> updateUser(Authentication auth, @Valid UpdateRequest updateRequest) {
         UUID userId = (UUID) auth.getPrincipal();
         User user = this.userService.getUserById(userId).orElse(null);

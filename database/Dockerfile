@@ -1,8 +1,9 @@
 FROM mongo:latest
 
+# Root user
 ENV MONGO_INITDB_ROOT_USERNAME=amine
 ENV MONGO_INITDB_ROOT_PASSWORD=1234
+# Optional: initial database
 ENV MONGO_INITDB_DATABASE=DB
 
-# Expose MongoDB default port
 EXPOSE 27017
