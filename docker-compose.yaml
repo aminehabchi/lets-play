@@ -1,0 +1,21 @@
+version: "3.9"
+services:
+  mongodb:
+    image: mongo:6.0
+    container_name: mongodb
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: amine
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+
+
+  app:
+    container_name: backend
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8443:8443"
+    environment:
+      SPRING_DATA_MONGODB_URI: mongodb://amine:1234@mongodb:27017/?authSource=admin
+    depends_on:
+      - mongodb

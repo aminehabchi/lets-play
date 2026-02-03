@@ -2,6 +2,7 @@ package com.example.demo.features.auth;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +26,7 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final UserService userService;
 
+    @Autowired
     public AuthController(AuthService authService, JwtUtil jwtUtil, UserService userService) {
         this.authService = authService;
         this.jwtUtil = jwtUtil;

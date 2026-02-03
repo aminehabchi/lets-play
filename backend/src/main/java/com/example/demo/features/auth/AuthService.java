@@ -1,5 +1,6 @@
 package com.example.demo.features.auth;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.config.SecurityConfig;
@@ -14,6 +15,7 @@ public class AuthService {
     private final UserRepository userRepository;
     private final SecurityConfig securityConfig;
 
+    @Autowired
     public AuthService(UserRepository userRepository, SecurityConfig securityConfig) {
         this.userRepository = userRepository;
         this.securityConfig = securityConfig;

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -26,8 +27,10 @@ import jakarta.annotation.security.PermitAll;
 @RestController
 @RequestMapping("/api/products")
 public class ProductController {
+
     private final ProductService productService;
 
+    @Autowired
     public ProductController(ProductService productService) {
         this.productService = productService;
     }
@@ -54,14 +57,14 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.success(product));
     }
 
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<ApiResponse<Product>> deleteProduct(@PathVariable UUID id, Authentication authentication) {
         UUID userId = (UUID) authentication.getPrincipal();
 
         return ResponseEntity.ok(ApiResponse.successStatus(this.productService.deleteProduct(id, userId).value()));
     }
 
-    @PutMapping(value = "/{id}")
+    @PutMapping("/{id}")
     public ResponseEntity<ApiResponse<?>> updateProduct(@PathVariable UUID productId,
             @NonNull @RequestBody UpdateProcut updateProcut,
             Authentication authentication) {

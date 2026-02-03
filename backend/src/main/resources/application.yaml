@@ -1,9 +1,14 @@
 spring:
   application:
     name: demo
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
   data:
     mongodb:
-      uri: mongodb://amine:1234@localhost:27017/?authSource=admin
+    uri: mongodb://amine:1234@host.docker.internal:27017/?authSource=admin
 jwt:
   secret: n9B7Fh8X3Cwq2mRzVYp0Q6L8sA1T5EJZkW4dUoM+KxHcR7eIPlmG2NfaSb0y
   expiration: 86400000
