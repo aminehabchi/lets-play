@@ -23,6 +23,7 @@ import com.example.demo.features.products.dto.UpdateProcut;
 import com.mongodb.lang.NonNull;
 
 import jakarta.annotation.security.PermitAll;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api/products")
@@ -50,7 +51,7 @@ public class ProductController {
     }
 
     @PostMapping()
-    public ResponseEntity<ApiResponse<Product>> createProduct(@NonNull @RequestBody CreateProduct createProduct,
+    public ResponseEntity<ApiResponse<Product>> createProduct(@Valid @RequestBody CreateProduct createProduct,
             Authentication authentication) {
         UUID userId = (UUID) authentication.getPrincipal();
         Product product = this.productService.createProduct(createProduct, userId);
@@ -64,9 +65,9 @@ public class ProductController {
         return ResponseEntity.ok(ApiResponse.successStatus(this.productService.deleteProduct(id, userId).value()));
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/{productId}")
     public ResponseEntity<ApiResponse<?>> updateProduct(@PathVariable UUID productId,
-            @NonNull @RequestBody UpdateProcut updateProcut,
+            @Valid @RequestBody UpdateProcut updateProcut,
             Authentication authentication) {
 
         Optional<Product> product = this.productService.getProductById(productId);
@@ -74,7 +75,7 @@ public class ProductController {
         if (product.isEmpty()) {
             return ResponseEntity.ok(ApiResponse.error("Product not found", HttpStatus.NOT_FOUND));
         }
-        
+
         UUID userId = (UUID) authentication.getPrincipal();
         if (!product.get().getUserId().equals(userId)) {
             return ResponseEntity.ok(ApiResponse.error("Not authorized", HttpStatus.FORBIDDEN));

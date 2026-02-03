@@ -38,8 +38,7 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                 .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll())
+                .requestMatchers("/api/**").authenticated())
                 .logout(logout -> logout
                 .logoutUrl("/api/auth/logout"))
                 .sessionManagement(session -> session

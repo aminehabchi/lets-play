@@ -43,7 +43,7 @@ public class UserService {
     }
 
     public void updateUser(User user, UpdateRequest req) {
-
+    
         if (req.getUsername() != null && !req.getUsername().isBlank()) {
             user.setUsername(req.getUsername());
         }

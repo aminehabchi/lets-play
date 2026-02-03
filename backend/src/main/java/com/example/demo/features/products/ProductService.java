@@ -26,8 +26,8 @@ public class ProductService {
         return productRepository.findById(id);
     }
 
-    public List<Product> getAllProducts(){
-              return productRepository.findAll();
+    public List<Product> getAllProducts() {
+        return productRepository.findAll();
     }
 
     public Product createProduct(CreateProduct newProduct, UUID userId) {
@@ -36,17 +36,24 @@ public class ProductService {
         return p;
     }
 
-    public HttpStatus deleteProduct(UUID id, UUID userId) {
-        Optional<Product> p = getProductById(id);
-        if (p.isPresent()) {
-            if (p.get().getUserId() != userId && !this.userService.isAdmin(userId)) {
-                return HttpStatus.FORBIDDEN;
-            }
+    public HttpStatus deleteProduct(UUID productId, UUID currentUserId) {
+        Optional<Product> productOpt = getProductById(productId);
 
-            this.productRepository.delete(p.get());
-            return HttpStatus.NO_CONTENT;
+        if (productOpt.isEmpty()) {
+            return HttpStatus.NOT_FOUND;
         }
-        return HttpStatus.NOT_FOUND;
+
+        Product product = productOpt.get();
+
+        boolean isOwner = product.getUserId().equals(currentUserId);
+        boolean isAdmin = userService.isAdmin(currentUserId);
+
+        if (!isOwner && !isAdmin) {
+            return HttpStatus.FORBIDDEN;
+        }
+
+        productRepository.delete(product);
+        return HttpStatus.NO_CONTENT;
     }
 
     public void updateProduct(Product product, UpdateProcut updateProduct) {

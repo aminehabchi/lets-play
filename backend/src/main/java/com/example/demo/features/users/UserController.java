@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,6 +20,7 @@ import com.example.demo.features.users.dto.UpdateRequest;
 import com.example.demo.features.users.model.User;
 
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 
 @RestController
 @RequestMapping("/api/users")
@@ -76,9 +78,11 @@ public class UserController {
     }
 
     @PutMapping("/me")
-    public ResponseEntity<?> updateUser(Authentication auth, @Valid UpdateRequest updateRequest) {
+    public ResponseEntity<?> updateUser(Authentication auth,@Valid @RequestBody UpdateRequest updateRequest) {
         UUID userId = (UUID) auth.getPrincipal();
         User user = this.userService.getUserById(userId).orElse(null);
+
+        System.out.println(updateRequest.getUsername() + "  " + user.getUsername());
         this.userService.updateUser(user, updateRequest);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(ApiResponse.success(HttpStatus.OK));
