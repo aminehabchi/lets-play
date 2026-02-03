@@ -74,7 +74,7 @@ public class ProductController {
         if (product.isEmpty()) {
             return ResponseEntity.ok(ApiResponse.error("Product not found", HttpStatus.NOT_FOUND));
         }
-
+        
         UUID userId = (UUID) authentication.getPrincipal();
         if (!product.get().getUserId().equals(userId)) {
             return ResponseEntity.ok(ApiResponse.error("Not authorized", HttpStatus.FORBIDDEN));

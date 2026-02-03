@@ -35,15 +35,15 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(
             org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
         http
-                .csrf(csrf -> csrf.disable()) // Disable CSRF for REST API
+                .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
-                        .anyRequest().authenticated())
+                .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
+                .requestMatchers("/api/**").authenticated()
+                .anyRequest().permitAll())
                 .logout(logout -> logout
-                        .logoutUrl("/api/auth/logout"))
+                .logoutUrl("/api/auth/logout"))
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless JWT session
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // Stateless JWT session
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
 
