@@ -12,7 +12,7 @@ This project demonstrates proficiency in:
 
 1. **Spring Boot & RESTful Design**: Building scalable REST APIs following industry standards
 2. **MongoDB Integration**: Working with NoSQL databases in Spring applications
-3. **Security Implementation**: Applying Spring Security and JWT for authentication/authorization
+3. **Security Implementation**: Applying Spring Security and JWT for authentication/authorization and Https
 4. **Error Handling**: Creating robust applications with comprehensive exception handling
 5. **Clean Code Practices**: Writing maintainable, modular, and well-structured code
 6. **Role-Based Access Control**: Implementing fine-grained permission systems

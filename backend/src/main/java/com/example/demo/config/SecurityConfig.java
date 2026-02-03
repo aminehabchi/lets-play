@@ -40,10 +40,6 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/api/auth/login", "/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/products").permitAll()
                         .anyRequest().authenticated())
-                .exceptionHandling(exceptions -> exceptions
-                        .authenticationEntryPoint(jwtAuthenticationEntryPoint) // Custom handling for unauthorized
-                                                                               // requests
-                )
                 .logout(logout -> logout
                         .logoutUrl("/api/auth/logout"))
                 .sessionManagement(session -> session

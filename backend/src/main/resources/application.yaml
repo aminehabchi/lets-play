@@ -3,7 +3,16 @@ spring:
     name: demo
   data:
     mongodb:
-      uri: mongodb://amine:1234@localhost:27017/DB?authSource=admin&uuidRepresentation=standard
+      uri: mongodb://amine:1234@localhost:27017/?authSource=admin
 jwt:
   secret: n9B7Fh8X3Cwq2mRzVYp0Q6L8sA1T5EJZkW4dUoM+KxHcR7eIPlmG2NfaSb0y
   expiration: 86400000
+
+server:
+   port: 8443
+   ssl:
+      key-store: classpath:keystore.p12
+      key-password: 123456
+      key-store-password: 123456
+      keyStoreType: PKCS12
+      keyAlias: tomcat
