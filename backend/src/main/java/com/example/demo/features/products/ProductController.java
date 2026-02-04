@@ -20,10 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.features.common.ApiResponse;
 import com.example.demo.features.products.dto.CreateProduct;
 import com.example.demo.features.products.dto.UpdateProcut;
-import com.mongodb.lang.NonNull;
 
 import jakarta.annotation.security.PermitAll;
 import jakarta.validation.Valid;
+
 
 @RestController
 @RequestMapping("/api/products")
@@ -36,54 +36,69 @@ public class ProductController {
         this.productService = productService;
     }
 
-    @GetMapping()
+    @GetMapping
     @PermitAll
     public ResponseEntity<ApiResponse<List<Product>>> getProducts() {
-        return ResponseEntity.ok(ApiResponse.success(this.productService.getAllProducts()));
+        return ResponseEntity.ok(
+                ApiResponse.success(this.productService.getAllProducts())
+        );
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<Product>> getProduct(@PathVariable UUID id) {
+    public ResponseEntity<ApiResponse<Product>> getProduct(@PathVariable("id") UUID id) {
         return productService.getProductById(id)
                 .map(product -> ResponseEntity.ok(ApiResponse.success(product)))
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(ApiResponse.error("Product not found.", HttpStatus.NOT_FOUND)));
     }
 
-    @PostMapping()
-    public ResponseEntity<ApiResponse<Product>> createProduct(@Valid @RequestBody CreateProduct createProduct,
+    @PostMapping
+    public ResponseEntity<ApiResponse<Product>> createProduct(
+            @Valid @RequestBody CreateProduct createProduct,
             Authentication authentication) {
+
         UUID userId = (UUID) authentication.getPrincipal();
         Product product = this.productService.createProduct(createProduct, userId);
-        return ResponseEntity.ok(ApiResponse.success(product));
+
+        return ResponseEntity.status(HttpStatus.CREATED)
+                .body(ApiResponse.success(product));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Product>> deleteProduct(@PathVariable UUID id, Authentication authentication) {
-        UUID userId = (UUID) authentication.getPrincipal();
+    public ResponseEntity<ApiResponse<?>> deleteProduct(
+            @PathVariable("id") UUID id,
+            Authentication authentication) {
 
-        return ResponseEntity.ok(ApiResponse.successStatus(this.productService.deleteProduct(id, userId).value()));
+        UUID userId = (UUID) authentication.getPrincipal();
+        var result = this.productService.deleteProduct(id, userId);
+
+        return ResponseEntity.status(result.value())
+                .body(ApiResponse.successStatus(result.value()));
     }
 
-    @PutMapping("/{productId}")
-    public ResponseEntity<ApiResponse<?>> updateProduct(@PathVariable UUID productId,
+    @PutMapping("/{id}")
+    public ResponseEntity<ApiResponse<?>> updateProduct(
+            @PathVariable("id") UUID id,
             @Valid @RequestBody UpdateProcut updateProcut,
             Authentication authentication) {
 
-        Optional<Product> product = this.productService.getProductById(productId);
+        Optional<Product> productOpt = this.productService.getProductById(id);
 
-        if (product.isEmpty()) {
-            return ResponseEntity.ok(ApiResponse.error("Product not found", HttpStatus.NOT_FOUND));
+        if (productOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(ApiResponse.error("Product not found", HttpStatus.NOT_FOUND));
         }
 
         UUID userId = (UUID) authentication.getPrincipal();
-        if (!product.get().getUserId().equals(userId)) {
-            return ResponseEntity.ok(ApiResponse.error("Not authorized", HttpStatus.FORBIDDEN));
+        Product product = productOpt.get();
+
+        if (!product.getUserId().equals(userId)) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN)
+                    .body(ApiResponse.error("Not authorized", HttpStatus.FORBIDDEN));
         }
 
-        this.productService.updateProduct(product.get(), updateProcut);
+        this.productService.updateProduct(product, updateProcut);
 
         return ResponseEntity.ok(ApiResponse.successStatus(HttpStatus.OK));
     }
-
 }

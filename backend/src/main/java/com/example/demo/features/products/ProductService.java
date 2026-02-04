@@ -58,13 +58,15 @@ public class ProductService {
 
     public void updateProduct(Product product, UpdateProcut updateProduct) {
 
-        if (updateProduct.getName() != null) {
+        if (updateProduct.getName() != null && !updateProduct.getName().isBlank()) {
             product.setName(updateProduct.getName());
         }
-        if (updateProduct.getDescription() != null) {
+
+        if (updateProduct.getDescription() != null && !updateProduct.getDescription().isBlank()) {
             product.setDescription(updateProduct.getDescription());
         }
-        if (updateProduct.getPrice() != null) {
+
+        if (updateProduct.getPrice() != null && updateProduct.getPrice() > 0) {
             product.setPrice(updateProduct.getPrice());
         }
 
